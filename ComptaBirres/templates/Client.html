@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Client del ComptaBirres</title>
+
+</head>
+<div onclick="AfegeixBirra" style="height:1000px">
+<body style="background-color:lightcoral;", onkeypress="AfegeixBirra()", onclick="AfegeixBirra()">
+    <h1>Ets el tirador {{tirador}} amb IP: {{ ip }}</h1>
+
+    <h1 id="TotalBirresTirador">Has servit {{ totalBirresTirador }} birres</h1>
+
+
+    <script>
+        function AfegeixBirra(){
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function() {
+
+            if (this.readyState == 4 && this.status == 200) {
+
+                document.getElementById("TotalBirresTirador").innerText = "Has servit "+ this.responseText +" birres";
+
+            }
+
+          };
+          xhttp.open("GET", "/apiTirador", true);
+          xhttp.send();
+
+        }
+
+    </script>
+</body>
+</div>
+</html>

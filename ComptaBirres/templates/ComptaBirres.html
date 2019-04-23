@@ -1,0 +1,86 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+
+<html ng-app="ComptaBirres">
+
+{% block content %}
+
+
+<body style="background-color:lightcoral">
+
+<img src="{% static 'Logo_300.jpg' %}">
+<h1 style="color:whitesmoke" id="titol" align="center">Birres consumides durant la festa de dia {{edicio}}</h1>
+
+<p id="totalBirres"  style="color:whitesmoke; font-size:600%;" align="center" > {{totalBirres}}</p>
+</body>
+
+
+    <script>
+    var totalOld = document.getElementById("totalBirres");
+    var totalNew;
+    function loadXMLDoc() {
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() {
+
+    if (this.readyState == 4 && this.status == 200) {
+
+        document.getElementById("totalBirres").innerText = this.responseText;
+
+    }
+
+  };
+  xhttp.open("GET", "/api", true);
+  xhttp.send();
+
+  {#document.getElementById("totalBirres").innerHTML = xhttp.responseText;#}
+
+
+    }
+    </script>
+
+    <script>
+        var i = 0;
+        var totalOld = {{ totalBirres }}
+        setInterval(function() {
+            loadXMLDoc();
+
+        },1000)
+
+    </script>
+
+    {#<meta http-equiv="refresh" content="5" />#}
+
+{% endblock %}
+
+
+
+
+{% comment %}<script>
+    totalBirres = {{ totalBirres }}
+    totalBirres = {
+  aInternal: 10,
+  aListener: function(val) {},
+  set a(val) {
+    this.aInternal = val;
+    this.aListener(val);
+  },
+  get a() {
+    return this.aInternal;
+  },
+  registerListener: function(listener) {
+    this.aListener = listener;
+
+  }
+}
+
+totalBirres.registerListener(function(val) {
+  document.getElementById("totalBirres").innerHTML = totalBirres;
+});
+
+const Url = 'https://localhost:8000/resum'
+
+$.get(Url, function(data,))
+
+</script>{% endcomment %}
