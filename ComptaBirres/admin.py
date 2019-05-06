@@ -16,5 +16,5 @@ class EdicioAdmin(admin.ModelAdmin):
 @admin.register(Tirador)
 class EdicioAdmin(admin.ModelAdmin):
     list_filter = []
-    list_display = ["name", "totalBirresTirador", "ip"]
+    list_display = ["name", "totalBirresTirador", "ip", "edicio"]
     search_field = ["name"]

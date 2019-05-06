@@ -2,85 +2,31 @@
 
 <!DOCTYPE html>
 
-<html ng-app="ComptaBirres">
+<html>
 
 {% block content %}
+    <script src="{% static 'js/canvasjs.min.js' %}"></script>
+    <script src="{% static 'js/controller.js' %}"></script>
 
 
-<body style="background-color:lightcoral">
+    <body style="background-color:white">
+        <br>
+        <h1 style="color:dimgray" id="titol" align="center">Birres consumides durant la festa de dia {{edicio}}</h1>
 
-<img src="{% static 'Logo_300.jpg' %}">
-<h1 style="color:whitesmoke" id="titol" align="center">Birres consumides durant la festa de dia {{edicio}}</h1>
+        <p id="totalBirres"  style="color:dimgray; font-size:600%"  align="center" > {{totalBirres}}</p>
+    </body>
 
-<p id="totalBirres"  style="color:whitesmoke; font-size:600%;" align="center" > {{totalBirres}}</p>
-</body>
+    <script> totalBirresPeriodic() </script>
+    <script>updateData()</script>
+    <script>setTimeout( () => updateChart(), 300)</script>
+    <div id="chartContainer" style="height: 370px; width:100%;"></div>
 
+    <script>autoLoadChart()</script>
 
-    <script>
-    var totalOld = document.getElementById("totalBirres");
-    var totalNew;
-    function loadXMLDoc() {
-  var xhttp = new XMLHttpRequest();
+    <br>
+    <br>
 
-  xhttp.onreadystatechange = function() {
+    <img align="right" height="10%" width="5%" src="{% static 'Logo_300.jpg' %}">
 
-    if (this.readyState == 4 && this.status == 200) {
-
-        document.getElementById("totalBirres").innerText = this.responseText;
-
-    }
-
-  };
-  xhttp.open("GET", "/api", true);
-  xhttp.send();
-
-  {#document.getElementById("totalBirres").innerHTML = xhttp.responseText;#}
-
-
-    }
-    </script>
-
-    <script>
-        var i = 0;
-        var totalOld = {{ totalBirres }}
-        setInterval(function() {
-            loadXMLDoc();
-
-        },1000)
-
-    </script>
-
-    {#<meta http-equiv="refresh" content="5" />#}
 
 {% endblock %}
-
-
-
-
-{% comment %}<script>
-    totalBirres = {{ totalBirres }}
-    totalBirres = {
-  aInternal: 10,
-  aListener: function(val) {},
-  set a(val) {
-    this.aInternal = val;
-    this.aListener(val);
-  },
-  get a() {
-    return this.aInternal;
-  },
-  registerListener: function(listener) {
-    this.aListener = listener;
-
-  }
-}
-
-totalBirres.registerListener(function(val) {
-  document.getElementById("totalBirres").innerHTML = totalBirres;
-});
-
-const Url = 'https://localhost:8000/resum'
-
-$.get(Url, function(data,))
-
-</script>{% endcomment %}

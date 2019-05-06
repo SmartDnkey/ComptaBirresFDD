@@ -1,5 +1,4 @@
 from django.db import models
-from datetime import datetime
 
 
 class Edicio(models.Model):
@@ -10,6 +9,7 @@ class Edicio(models.Model):
 
     edicio = models.IntegerField(unique=True)
     totalBirres = models.IntegerField(default=0)
+    # dataString = models.CharField(max_length=None, null=True)
 
     def __str__(self):
         return "%s" % (self.edicio)
@@ -27,6 +27,7 @@ class Tirador(models.Model):
         verbose_name = "tirador"
         verbose_name_plural = "tiradors"
 
+    edicio = models.ForeignKey(Edicio, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50, null=True)
     totalBirresTirador = models.IntegerField(default=0)
     ip = models.GenericIPAddressField(protocol='IPv4', default="0.0.0.0", null=True)
@@ -44,9 +45,16 @@ class Birra(models.Model):
         verbose_name = "birra"
         verbose_name_plural = "birres"
 
-    timestamp = models.DateTimeField(default=datetime.now())
+    timestamp = models.DateTimeField(auto_now_add=True)
     edicio = models.ForeignKey(Edicio, on_delete=models.CASCADE)
     tirador = models.ForeignKey(Tirador, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "%s %s " % (self.timestamp, self.tirador)
+
+
+
+
 
 
 

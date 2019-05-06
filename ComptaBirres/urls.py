@@ -14,23 +14,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 
-
-from django.conf.urls import url
+from rest_framework import routers
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic.base import RedirectView
-from ComptaBirres.views import ComptaBirresClientView, ComptaBirresView, ApiView, ApiTiradorView
+from ComptaBirres.views import *
+from ComptaBirres import api
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+router = routers.DefaultRouter()
+router.register(r'birres', api.BirresViewSet)
 
 urlpatterns = [
     # Home
     url(r'^resum/', ComptaBirresView.as_view(), name='view'),
-    url(r'^admin/', admin.site.urls ),
+    url(r'^admin/', admin.site.urls),
     url(r'^client/', ComptaBirresClientView.as_view(), name='client'),
-    url(r'^api/', ApiView.as_view(), name='api'),
+    url(r'^api/', include(router.urls, namespace='api')),
     url(r'^apiTirador/', ApiTiradorView.as_view(), name='apiTirador'),
-    url(r'^',RedirectView.as_view(url=r'resum/', permanent=False), name='view')
-
+    url(r'^$',RedirectView.as_view(url=r'resum/', permanent=False), name='view'),
+    url(r'^api/totalBirres', ApiTotalBirresView.as_view(), name='api'),
+    url(r'^api/dataBirres', DataBirresView.as_view()),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

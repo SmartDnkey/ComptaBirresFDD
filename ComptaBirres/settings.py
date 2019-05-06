@@ -25,13 +25,16 @@ SECRET_KEY = '($fx&x!b6%%$vgo_3-dny^bkqo54495m+(-9xy7%jo@1pfcahg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0',
+                'localhost',
+                '10.0.1.10']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'ComptaBirres',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

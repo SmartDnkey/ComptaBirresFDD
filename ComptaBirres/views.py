@@ -3,17 +3,18 @@ from django.views.generic import TemplateView
 from ComptaBirres.models import Edicio, Birra, Tirador
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from datetime import date
-from ComptaBirres.controller import addNewBirra
+import json
+from rest_framework import serializers, viewsets
+from datetime import date, datetime
+from ComptaBirres.controller import addNewBirra, getConsum
 import requests
 
 
-class ApiView(TemplateView):
+class ApiTotalBirresView(TemplateView):
     template_name = ''
 
     def get(self, request):
         edicio = Edicio.objects.get(edicio=date.today().year)
-
         return HttpResponse(edicio.totalBirres)
 
 class ApiTiradorView(TemplateView):
@@ -27,6 +28,16 @@ class ApiTiradorView(TemplateView):
 
         return HttpResponse(tirador.totalBirresTirador)
 
+
+class DataBirresView(TemplateView):
+
+    template_name = ''
+
+    def get(self, request):
+
+        array = getConsum()
+        json_list = json.dumps(array)
+        return HttpResponse(json_list)
 
 
 class ComptaBirresView(TemplateView):
@@ -51,16 +62,15 @@ class ComptaBirresClientView(TemplateView):
 
     def get(self, request, *args, **kwargs):
 
-
-
         ip = request.META.get('REMOTE_ADDR')
         edicio = Edicio.objects.get(edicio=date.today().year)
 
+
         try:
-            tirador = Tirador.objects.get(ip=ip)
+            tirador = Tirador.objects.get(ip=ip, edicio=edicio)
         except:
 
-            tirador = Tirador(ip=ip)
+            tirador = Tirador(ip=ip, edicio=edicio)
             tirador.save()
 
 
