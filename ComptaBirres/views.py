@@ -50,8 +50,8 @@ class ComptaBirresView(TemplateView):
         edicio = Edicio.objects.get(edicio=date.today().year)
 
         context = {'totalBirres': edicio.totalBirres,
-                   'edicio': edicio.edicio,
-                   'llista': list}
+                   'edicio': edicio.edicio}
+
         return self.render_to_response(context)
 
 
@@ -60,7 +60,7 @@ class ComptaBirresClientView(TemplateView):
 
     template_name = 'Client.html'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
 
         ip = request.META.get('REMOTE_ADDR')
         edicio = Edicio.objects.get(edicio=date.today().year)
@@ -68,6 +68,7 @@ class ComptaBirresClientView(TemplateView):
 
         try:
             tirador = Tirador.objects.get(ip=ip, edicio=edicio)
+
         except:
 
             tirador = Tirador(ip=ip, edicio=edicio)
