@@ -1,5 +1,6 @@
 from django.db import models
 
+INIT_STRING = "[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]"
 
 class Edicio(models.Model):
 
@@ -9,16 +10,35 @@ class Edicio(models.Model):
 
     edicio = models.IntegerField(unique=True)
     totalBirres = models.IntegerField(default=0)
-    # dataString = models.CharField(max_length=None, null=True)
+    dataString = models.TextField(max_length=None, default=INIT_STRING)
 
     def __str__(self):
         return "%s" % (self.edicio)
 
-    def sumaBirra(self):
+    def sumaBirra(self, birra):
 
         self.totalBirres = self.totalBirres + 1
+        self.updateDataString(birra)
         self.save()
 
+    def updateDataString(self, birra):
+
+        arrayAux = self.dataString.replace(' ', '')
+        arrayAux = arrayAux.replace('[[', '')
+        arrayAux = arrayAux.replace(']]', '')
+        array = arrayAux.split('],[')
+
+        for i in range(0, 23):
+
+            array[i] = array[i].split(',')
+
+        array[birra.timestamp.hour+2][birra.timestamp.minute//15] = str(int(array[birra.timestamp.hour+2][birra.timestamp.minute//15]) + 1)
+
+        string = str(array)
+        string = string.replace("'",'')
+        string = string.replace(' ', '')
+
+        self.dataString = string
 
 
 class Tirador(models.Model):
@@ -32,11 +52,13 @@ class Tirador(models.Model):
     totalBirresTirador = models.IntegerField(default=0)
     ip = models.GenericIPAddressField(protocol='IPv4', default="0.0.0.0", null=True)
 
+
     def __str__(self):
         return "%s" % (self.name)
 
     def addBirra(self):
         self.totalBirresTirador = self.totalBirresTirador + 1
+        self.save()
 
 
 class Birra(models.Model):
@@ -46,7 +68,7 @@ class Birra(models.Model):
         verbose_name_plural = "birres"
 
     timestamp = models.DateTimeField(auto_now_add=True)
-    edicio = models.ForeignKey(Edicio, on_delete=models.CASCADE)
+    # edicio = models.ForeignKey(Edicio, on_delete=models.CASCADE)
     tirador = models.ForeignKey(Tirador, on_delete=models.CASCADE)
 
     def __str__(self):

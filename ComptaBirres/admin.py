@@ -4,13 +4,14 @@ from ComptaBirres.models import *
 @admin.register(Birra)
 class BirraAdmin(admin.ModelAdmin):
     list_filter = []
-    list_display = ["tirador", "timestamp", "edicio"]
-    search_field = ["edicio", "tirador"]
+    list_display = ["tirador", "timestamp"]
+    search_field = ["tirador"]
 
 @admin.register(Edicio)
 class EdicioAdmin(admin.ModelAdmin):
     list_filter = []
-    list_display = ["edicio", "totalBirres"]
+    list_display = ["edicio", "totalBirres", "dataString"]
+    readonly_fields = ('dataString',)
     search_field = []
 
 @admin.register(Tirador)

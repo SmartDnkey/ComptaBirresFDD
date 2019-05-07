@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 import json
 from rest_framework import serializers, viewsets
 from datetime import date, datetime
-from ComptaBirres.controller import addNewBirra, getConsum
+from ComptaBirres.controller import addNewBirra
 import requests
 
 
@@ -23,10 +23,10 @@ class ApiTiradorView(TemplateView):
     def get(self, request):
         ip = request.META.get('REMOTE_ADDR')
         tirador = Tirador.objects.get(ip=ip)
-        edicio = Edicio.objects.get(edicio=date.today().year)
-        addNewBirra(tirador, edicio)
+        addNewBirra(tirador)
 
         return HttpResponse(tirador.totalBirresTirador)
+
 
 
 class DataBirresView(TemplateView):
@@ -35,9 +35,8 @@ class DataBirresView(TemplateView):
 
     def get(self, request):
 
-        array = getConsum()
-        json_list = json.dumps(array)
-        return HttpResponse(json_list)
+        edicio = Edicio.objects.get(edicio=date.today().year)
+        return HttpResponse(edicio.dataString)
 
 
 class ComptaBirresView(TemplateView):

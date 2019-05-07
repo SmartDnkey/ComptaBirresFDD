@@ -1,6 +1,6 @@
 
 var dataBirres = [];
-var updateInterval = 30000;
+var updateInterval = 5000;
 var dps = [];
 var chart;
 
