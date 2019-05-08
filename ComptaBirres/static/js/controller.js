@@ -1,30 +1,27 @@
 
-var dataBirres = [];
-var updateInterval = 5000;
-var dps = [];
-var chart;
-
+let dataBirres = [];
+let updateInterval = 5000;
+let dps = [];
+let chart;
 
 function actualitzarDadesTotals() {
-    var xhttp = new XMLHttpRequest();
 
+    let xhttp = new XMLHttpRequest();
 
-  xhttp.onreadystatechange = function() {
+  	xhttp.onreadystatechange = function() {
 
-    if (this.readyState == 4 && this.status == 200) {
+		if (this.readyState == 4 && this.status == 200) {
 
-        if(document.getElementById("totalBirres").innerText != this.responseText){
-            document.getElementById("totalBirres").innerText = this.responseText;
-        }
+			if(document.getElementById("totalBirres").innerText != this.responseText){
+				document.getElementById("totalBirres").innerText = this.responseText;
+			}
+		}
+  	};
 
+  	xhttp.open("GET", "/api/totalBirres/", true);
+  	xhttp.send();
 
-    }
-
-  };
-  xhttp.open("GET", "/api/totalBirres/", true);
-  xhttp.send();
-
-    }
+}
 
 function totalBirresPeriodic() {
 	setInterval(function() {actualitzarDadesTotals();},1000)
@@ -32,8 +29,6 @@ function totalBirresPeriodic() {
 
 function renderChart() {
 	chart = new CanvasJS.Chart("chartContainer", {
-
-
 
 		title: {
 			text: "Evolució del Consum"
@@ -52,26 +47,24 @@ function renderChart() {
 		}],
 		backgroundColor: "white",
 	});
-
 }
 
-
-
 function updateData() {
-    var xhttp = new XMLHttpRequest();
 
-  xhttp.onreadystatechange = function() {
+    let xhttp = new XMLHttpRequest();
 
-    if (this.readyState == 4 && this.status == 200) {
+  	xhttp.onreadystatechange = function() {
 
-    	dataBirres = JSON.parse(this.responseText);
+		if (this.readyState == 4 && this.status == 200) {
 
-    }
+			dataBirres = JSON.parse(this.responseText);
 
-  };
-  xhttp.open("GET", "/api/dataBirres/", true);
+		}
 
-  xhttp.send();
+  	};
+
+  	xhttp.open("GET", "/api/dataBirres/", true);
+  	xhttp.send();
 
 }
 
@@ -132,12 +125,10 @@ function updateChart() {
 			{ y: dataBirres[19][3], label: "19:45" }
 		]
 	renderChart();
-
 	chart.render();
 };
 
 function autoLoadChart(){
-
 
 	setInterval(function(){updateChart()}, updateInterval);
 

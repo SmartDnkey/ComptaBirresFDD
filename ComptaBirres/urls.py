@@ -14,24 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 
-from rest_framework import routers
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 from ComptaBirres.views import *
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-
 urlpatterns = [
     # Home
-    url(r'^resum/', ComptaBirresView.as_view(), name='view'),
     url(r'^admin/', admin.site.urls),
+    url(r'^resum/', ComptaBirresView.as_view(), name='view'),
     url(r'^client/', ComptaBirresClientView.as_view(), name='client'),
-    url(r'^apiTirador/', ApiTiradorView.as_view(), name='apiTirador'),
-    url(r'^$',RedirectView.as_view(url=r'resum/', permanent=False), name='view'),
-    url(r'^api/totalBirres', ApiTotalBirresView.as_view(), name='api'),
-    url(r'^api/dataBirres', DataBirresView.as_view()),
-
+    url(r'^api/tirador/', ApiTiradorView.as_view(), name='apiTirador'),
+    url(r'^api/totalBirres', ApiTotalBirresView.as_view(), name='totalBirres'),
+    url(r'^api/dataBirres', DataBirresView.as_view(), name='dataBirres'),
+    url(r'^$', RedirectView.as_view(url=r'resum/', permanent=False), name='view'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

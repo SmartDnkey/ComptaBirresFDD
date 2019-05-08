@@ -7,8 +7,12 @@
         <title>Client del ComptaBirres</title>
 
     </head>
+
+
     <div onclick="AfegeixBirra" style="height:800px">
+
         <body style="background-color:white;", onkeypress="AfegeixBirra()", onclick="AfegeixBirra()">
+
             <h1 style="color:dimgray">Ets el tirador {{tirador}} amb IP: {{ ip }}</h1>
 
             <h1 id="TotalBirresTirador" style="color:dimgray">Has servit {{ totalBirresTirador }} birres</h1>
@@ -26,12 +30,15 @@
                     }
 
                   };
-                  xhttp.open("GET", "/apiTirador/", true);
+                  xhttp.open("GET", "/api/tirador/", true);
                   xhttp.send();
 
                 }
 
             </script>
+
         </body>
+
     </div>
+
 </html>

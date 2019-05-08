@@ -1,6 +1,8 @@
 from django.db import models
 
-INIT_STRING = "[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]"
+INIT_STRING = "[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]," \
+              "[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]," \
+              "[0,0,0,0],[0,0,0,0],[0,0,0,0]]"
 
 class Edicio(models.Model):
 
@@ -44,6 +46,7 @@ class Edicio(models.Model):
 class Tirador(models.Model):
 
     class Meta(object):
+
         verbose_name = "tirador"
         verbose_name_plural = "tiradors"
 
@@ -56,7 +59,11 @@ class Tirador(models.Model):
     def __str__(self):
         return "%s" % (self.name)
 
-    def addBirra(self):
+    def addNewBirra(self):
+
+        birra = Birra(tirador=self)
+        birra.save()
+        self.edicio.sumaBirra(birra)
         self.totalBirresTirador = self.totalBirresTirador + 1
         self.save()
 
@@ -68,7 +75,6 @@ class Birra(models.Model):
         verbose_name_plural = "birres"
 
     timestamp = models.DateTimeField(auto_now_add=True)
-    # edicio = models.ForeignKey(Edicio, on_delete=models.CASCADE)
     tirador = models.ForeignKey(Tirador, on_delete=models.CASCADE)
 
     def __str__(self):

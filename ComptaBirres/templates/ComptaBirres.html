@@ -4,29 +4,39 @@
 
 <html>
 
-{% block content %}
-    <script src="{% static 'js/canvasjs.min.js' %}"></script>
-    <script src="{% static 'js/controller.js' %}"></script>
+    {% block content %}
 
+        <script src="{% static 'js/canvasjs.min.js' %}"></script>
+        <script src="{% static 'js/controller.js' %}"></script>
 
-    <body style="background-color:white">
+        <body style="background-color:white">
+            <br>
+            <h1 style="color:dimgray" id="titol" align="center">Birres consumides durant la festa de dia {{edicio}}</h1>
+            <table>
+
+                <th> <img align="right" height="20%" width="15%" style="padding-right:5%" src="{% static 'beer.png' %}"> </th>
+
+                <th> <p id="totalBirres"  style="color:dimgray; font-size:600%"  align="center" > {{totalBirres}}</p> </th>
+
+                <th> <img align="left" style="padding-right:5% ; transform:scaleX(-1)" height="20%" width="15%" src="{% static 'beer.png' %}"> </th>
+
+            </table>
+
+        </body>
+
+        <script> totalBirresPeriodic() </script>
+        <script>updateData()</script>
+        <script>setTimeout( () => updateChart(), 300)</script>
+
+        <div id="chartContainer" style="height: 370px; width:100%;"></div>
+
+        <script>autoLoadChart()</script>
+
         <br>
-        <h1 style="color:dimgray" id="titol" align="center">Birres consumides durant la festa de dia {{edicio}}</h1>
+        <br>
 
-        <p id="totalBirres"  style="color:dimgray; font-size:600%"  align="center" > {{totalBirres}}</p>
-    </body>
+        <img align="right" height="10%" width="5%" src="{% static 'Logo_300.jpg' %}">
 
-    <script> totalBirresPeriodic() </script>
-    <script>updateData()</script>
-    <script>setTimeout( () => updateChart(), 300)</script>
-    <div id="chartContainer" style="height: 370px; width:100%;"></div>
+    {% endblock %}
 
-    <script>autoLoadChart()</script>
-
-    <br>
-    <br>
-
-    <img align="right" height="10%" width="5%" src="{% static 'Logo_300.jpg' %}">
-
-
-{% endblock %}
+</html>
